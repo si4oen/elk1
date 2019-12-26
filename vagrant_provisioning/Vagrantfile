@@ -1,0 +1,61 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+ENV['VAGRANT_NO_PARALLEL'] = 'yes'
+
+Vagrant.configure(2) do |config|
+
+  ### configuration parameters ###
+
+  #HOST_PORT = "2222" # which host-port forward to guest-port
+  #GUEST_PORT = "22" # which guest-port will be forward from host-port
+  BOX_BASE = "centos7-1908" # Vagrant base box to use
+  SRV_IP = "192.168.16.110" # server ip address
+  SRV_NAME = "elksrv.testlab.local" # server hostname
+  CLI_IP = "192.168.16.120" # client ip address
+  CLI_NAME = "client.testlab.local" # client hostname
+
+  ### end configuration parameters ###
+
+	#ssh key-based authentication
+	config.ssh.insert_key = false
+    config.ssh.private_key_path = ['~/.vagrant.d/insecure_private_key', '~/.ssh/id_rsa']
+    config.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/authorized_keys"
+
+	#If install VirtualBox Guest Additions set auto_update to "TRUE" or running command "vagrant vbguest --do install"
+	#must install ==> vagrant plugin install vagrant-vbguest
+    if Vagrant.has_plugin?("vagrant-vbguest") then
+      config.vbguest.auto_update = false
+      config.vbguest.no_remote = true
+    end
+
+	#run bootstrap script
+	config.vm.provision "shell", path: "bootstrap.sh"
+
+	config.vm.define "server" do |server|
+      server.vm.box = BOX_BASE
+      server.vm.hostname = "#{SRV_NAME}"
+      server.vm.network "public_network", ip: "#{SRV_IP}"
+
+	  #provision resources to vm
+	  node.vm.provider "virtualbox" do |vb|
+        vb.name = "elksrv"
+        vb.memory = 2048
+        vb.cpus = 2
+      end
+	end
+	
+	config.vm.define "client" do |client|
+      client.vm.box = BOX_BASE
+      client.vm.hostname = "#{CLI_NAME}"
+      client.vm.network "public_network", ip: "#{CLI_IP}"
+
+	  #provision resources to vm
+	  node.vm.provider "virtualbox" do |vb|
+        vb.name = "client"
+        vb.memory = 512
+        vb.cpus = 1
+      end
+	end
+
+end
