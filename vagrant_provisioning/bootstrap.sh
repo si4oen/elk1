@@ -2,12 +2,12 @@
 
 ## Update the system >/dev/null 2>&1
 echo "[TASK] Updating the system"
-#yum install -y epel-release
+yum install -y epel-release
 yum update -y
 
 ## Install desired packages
-#echo "[TASK] Installing desired packages"
-#yum install -y java-1.8.0-openjdk
+echo "[TASK] Installing desired packages"
+yum install -y wget nano telnet htop unzip
 
 ## Enable password authentication
 echo "[TASK] Enabled password authentication in sshd config"
@@ -47,6 +47,7 @@ cat /dev/null > ~/.bash_history && history -c
 ## Update hosts file
 echo "[TASK] Update host file /etc/hosts"
 cat >>/etc/hosts<<EOF
+## added by vagrant bootstrap
 192.168.16.110 elksrv.testlab.local elksrv
 192.168.16.120 client.testlab.local client
 EOF
