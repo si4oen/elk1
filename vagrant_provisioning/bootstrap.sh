@@ -6,8 +6,8 @@ echo "[TASK] Updating the system"
 yum update -y
 
 ## Install desired packages
-echo "[TASK] Installing desired packages"
-yum install -y java-1.8.0-openjdk
+#echo "[TASK] Installing desired packages"
+#yum install -y java-1.8.0-openjdk
 
 ## Enable password authentication
 echo "[TASK] Enabled password authentication in sshd config"
