@@ -38,7 +38,7 @@ Vagrant.configure(2) do |config|
       server.vm.network "public_network", ip: "#{SRV_IP}"
 
 	  #provision resources to vm
-	  node.vm.provider "virtualbox" do |vb|
+	  server.vm.provider "virtualbox" do |vb|
         vb.name = "elksrv"
         vb.memory = 2048
         vb.cpus = 2
@@ -51,7 +51,7 @@ Vagrant.configure(2) do |config|
       client.vm.network "public_network", ip: "#{CLI_IP}"
 
 	  #provision resources to vm
-	  node.vm.provider "virtualbox" do |vb|
+	  client.vm.provider "virtualbox" do |vb|
         vb.name = "client"
         vb.memory = 512
         vb.cpus = 1
