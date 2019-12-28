@@ -217,6 +217,7 @@ POST /_security/user/logstash_writer_user
 
 node.name: "elksrv.testlab.local"
 path.config: /etc/logstash/conf.d/*.conf
+http.host: "elksrv.testlab.local"
 
 xpack.monitoring.enabled: true
 xpack.monitoring.elasticsearch.username: logstash_system
@@ -270,6 +271,8 @@ yum install -y metricbeat
 
 metricbeat modules list
 metricbeat modules enable elasticsearch-xpack
+metricbeat modules enable kibana-xpack
+metricbeat modules enable logstash-xpack
 
 ####Configure the Elasticsearch X-Pack module in Metricbeat on each Elasticsearch node
 vi /etc/metricbeat/modules.d/elasticsearch-xpack.yml
@@ -281,6 +284,13 @@ ssl.certificate_authorities: ["/etc/certs/testlab.crt"]
 xpack.enabled: true
 
 ==========
+### for loading template
+setup.kibana
+  host: "https://elksrv.testlab.local:5601"
+  ssl.certificate_authorities: ["/etc/certs/testlab.crt"]
+  ssl.certificate: "/etc/certs/testlab.crt"
+  ssl.key: "/etc/certs/testlab.key"
+  ssl.verification_mode: none
 
 ####edit metricbeat.yml
 output.elasticsearch:
@@ -293,7 +303,22 @@ output.elasticsearch:
   password: "remote monitoring password"
   ssl.certificate_authorities: ["/etc/certs/testlab.crt"]
   ssl.certificate: "/etc/certs/testlab.crt"
-  ssl.key: "/etc/certs/testlab.crt"
+  ssl.key: "/etc/certs/testlab.key"
+
+## if use output logstash in metricbeat.yml
+output.logstash:
+  # The Logstash hosts
+  hosts: ["elksrv.testlab.local:5044"]
+
+  # Optional SSL. By default is off.
+  # List of root certificates for HTTPS server verifications
+  ssl.certificate_authorities: ["/etc/certs/testlab.crt"]
+
+  # Certificate for SSL client authentication
+  ssl.certificate: "/etc/certs/testlab.crt"
+
+  # Client Certificate Key
+  ssl.key: "/etc/certs/testlab.key"
 
 ==========
   
@@ -306,6 +331,7 @@ PUT _cluster/settings
 }
 
 ==========
+metricbeat setup -e
 
 ### start metricbeat
 systemctl daemon-reload
@@ -318,6 +344,13 @@ yum install -y filebeat
 filebeat modules list
 filebeat modules enable system
 
+filebeat setup -e
+filebeat -c filebeat.yml -e -v
+
+### start filebeat
+systemctl daemon-reload
+systemctl enable filebeat
+systemctl start filebeat
 
 
 
