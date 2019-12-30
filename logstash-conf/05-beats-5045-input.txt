@@ -1,0 +1,12 @@
+### beat input ###
+
+input {
+  beats {
+    port => 5045
+    ssl => true
+    ssl_key => "/etc/certs/testlab.key"
+    ssl_certificate => "/etc/certs/testlab.crt"
+    ssl_certificate_authorities => "/etc/certs/testlab.crt"
+    ssl_verify_mode => "none"
+  }
+}
