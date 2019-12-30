@@ -59,7 +59,7 @@ output {
     user => "elastic"
     password => "W4C6BjF8DgqzFog2qdIL"
     manage_template => false
-    index => "syslog-%{[agent.version]}-%{+YYYY.MM.dd}"
+    index => "syslog-%{[@metadata][beat]}-%{[@metadata][version]}-%{+YYYY.MM.dd}"
   }
 }
 
