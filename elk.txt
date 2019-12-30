@@ -322,7 +322,7 @@ output.logstash:
 
 ==========
   
-### disable default collection of Elasticsearch monitoring metrics
+### disable/enable default collection of Elasticsearch monitoring metrics
 PUT _cluster/settings
 {
   "persistent": {
