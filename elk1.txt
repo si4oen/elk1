@@ -346,6 +346,7 @@ filebeat modules enable system
 
 filebeat setup -e
 filebeat -c filebeat.yml -e -v
+filebeat test config -e
 
 ### start filebeat
 systemctl daemon-reload

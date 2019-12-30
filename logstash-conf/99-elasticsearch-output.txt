@@ -1,0 +1,12 @@
+#99-elasticsearch-output.conf
+
+output {
+  elasticsearch {
+    hosts => ["https://elksrv.testlab.local:9200"]
+    cacert => "/etc/certs/testlab.crt"
+    user => "elastic"
+    password => "W4C6BjF8DgqzFog2qdIL"
+    manage_template => false
+    index => "%{[@metadata][beat]}-%{[@metadata][version]}-%{+YYYY.MM.dd}"
+  }
+}

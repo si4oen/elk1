@@ -1,17 +1,4 @@
-### beats-input ###
-
-input {
-  beats {
-    port => 5044
-    ssl => true
-    ssl_key => "/etc/certs/testlab.key"
-    ssl_certificate => "/etc/certs/testlab.crt"
-    ssl_certificate_authorities => "/etc/certs/testlab.crt"
-    ssl_verify_mode => "none"
-  }
-}
-
-### filter-syslog ###
+### syslog-filter ###
 
 filter {
   if [fileset][module] == "system" {
@@ -49,18 +36,3 @@ filter {
     }
   }
 }
-
-### elasticesearch-output ###
-
-output {
-  elasticsearch {
-    hosts => ["https://elksrv.testlab.local:9200"]
-    cacert => "/etc/certs/testlab.crt"
-    user => "elastic"
-    password => "password"
-    manage_template => false
-    index => "%{[@metadata][beat]}-%{[@metadata][version]}-%{+YYYY.MM.dd}"
-  }
-}
-
-

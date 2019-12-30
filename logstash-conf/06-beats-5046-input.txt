@@ -10,3 +10,16 @@ input {
     ssl_verify_mode => "none"
   }
 }
+
+### elasticesearch-output ###
+
+output {
+  elasticsearch {
+    hosts => ["https://elksrv.testlab.local:9200"]
+    cacert => "/etc/certs/testlab.crt"
+    user => "elastic"
+    password => "password"
+    manage_template => false
+    index => "%{[@metadata][beat]}-%{[@metadata][version]}-%{+YYYY.MM.dd}"
+  }
+}
