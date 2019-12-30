@@ -1,3 +1,4 @@
+### beat input ###
 
 input {
   beats {
@@ -10,8 +11,8 @@ input {
   }
 }
 
+### filter ###
 
-}
 filter {
   if [fileset][module] == "system" {
     if [fileset][name] == "auth" {
@@ -49,6 +50,7 @@ filter {
   }
 }
 
+### elasticesearch output ###
 
 output {
   elasticsearch {
