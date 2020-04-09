@@ -82,22 +82,22 @@ MAX_MAP_COUNT=262144
 /usr/share/elasticsearch/bin/elasticsearch-setup-passwords auto -u "https://elksrv.testlab.local:9200"
 
 Changed password for user apm_system
-PASSWORD apm_system = QftjgHghuNZWMGzvt5v4
+PASSWORD apm_system = 
 
 Changed password for user kibana
-PASSWORD kibana = JGa5W7FXH5s549BFArzK
+PASSWORD kibana = 
 
 Changed password for user logstash_system
-PASSWORD logstash_system = 4vp0ECh7zdKT0MJ3pgUb
+PASSWORD logstash_system = 
 
 Changed password for user beats_system
-PASSWORD beats_system = 5Or3t0e1BYh8BpZ2qu5Y
+PASSWORD beats_system = 
 
 Changed password for user remote_monitoring_user
-PASSWORD remote_monitoring_user = rQnbDR2Qdlb0VEKQXZhG
+PASSWORD remote_monitoring_user = 
 
 Changed password for user elastic
-PASSWORD elastic = W4C6BjF8DgqzFog2qdIL
+PASSWORD elastic = 
 
 ===== test elasticsearch =====
 curl --cacert /etc/certs/testlab.crt -u elastic -X GET "https://elksrv.testlab.local:9200/_cluster/settings?pretty"
@@ -246,7 +246,7 @@ output {
     hosts => ["https://elksrv.testlab.local:9200"]
     cacert => "/etc/certs/testlab.crt"
     user => "logstash_writer_user"
-    password => "4vp0ECh7zdKT0MJ3pgUb"
+    password => ""
   }
 }
 
